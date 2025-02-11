@@ -2,7 +2,7 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from database import get_db
-from app import User  # Import the User class
+from user import User
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -52,8 +52,8 @@ def login():
             error = 'Incorrect password.'
 
         if error is None:
-            user_obj = User(user['id'], user['username'])  # Create User object
-            login_user(user_obj)
+            user = User.from_db(db, user['id'])
+            login_user(user, remember=True)
             return redirect(url_for('game.index'))
 
         flash(error)

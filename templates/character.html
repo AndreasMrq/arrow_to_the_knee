@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Character{% endblock %}
+
+{% block content %}
+<div class="new-game">
+    <h2>Start New Game</h2>
+    <form method="post" action="{{ url_for('character.update') }}">
+        <label for="character_name">Character Name:</label>
+        <input type="text" name="character_name" value="{{character_name}}" required>
+
+        <label for="character_description">Character Description:</label>
+        <textarea name="character_description">{{character_description}}</textarea>
+
+        <input type="submit" value="Update">
+    </form>
+</div>
+{% endblock %}
+

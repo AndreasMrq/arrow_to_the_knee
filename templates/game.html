@@ -5,38 +5,12 @@
 {% block content %}
     <div class="game-container">
         {% if current_game %}
-            <div class="game-history">
-                {% for entry in history %}
-                    <div class="entry">
-                        <span class="username">{{ entry.username }}:</span>
-                        <span class="content">{{ entry.content }}</span>
-                        <span class="timestamp">{{ entry.created_at }}</span>
-                    </div>
-                {% endfor %}
-            </div>
-            <form method="post" class="entry-form">
-                <textarea name="content" required></textarea>
+            <form method="post" class="entry-form" action="{{ url_for('game.add_entry', id = current_game.id) }}">
+                <textarea name="content" required>{{ settings }}</textarea>
                 <input type="submit" value="Add Entry">
             </form>
         {% else %}
-            <div class="new-game">
-                <h2>Start New Game</h2>
-                <form method="post" action="{{ url_for('game.new_game') }}">
-                    <label for="title">Game Title:</label>
-                    <input type="text" name="title" required>
-                    
-                    <label for="character_name">Character Name:</label>
-                    <input type="text" name="character_name" required>
-                    
-                    <label for="character_description">Character Description:</label>
-                    <textarea name="character_description"></textarea>
-                    
-                    <label for="settings">Game Settings:</label>
-                    <textarea name="settings"></textarea>
-                    
-                    <input type="submit" value="Start New Game">
-                </form>
-            </div>
+            <p>No game available</p>
         {% endif %}
     </div>
 {% endblock %}

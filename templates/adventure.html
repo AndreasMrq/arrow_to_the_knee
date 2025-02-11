@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}The Adventure{% endblock %}
+
+{% block content %}
+    <div class="game-container">
+        {% if current_game %}
+            <div class="game-history">
+                {% for entry in history %}
+                    <div class="entry">
+                        <span class="username">{{ entry.username }}:</span>
+                        <span class="content">{{ entry.content }}</span>
+                        <span class="timestamp">{{ entry.created_at }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+            <form method="post" class="entry-form">
+                <textarea name="Your Action" required></textarea>
+                <input type="submit" value="Submit">
+            </form>
+        {% else %}
+            <span>No adventure avaiable</span>
+        {% endif %}
+    </div>
+{% endblock %}
+

@@ -1,18 +1,14 @@
-# app.py
 import os
 from flask import Flask, render_template, request, redirect, url_for
-from flask_login import LoginManager, current_user, login_required, UserMixin
+from flask_login import LoginManager, current_user, login_required
 from database import get_db, close_db, init_db_command
+from user import User
 
-# User class for Flask-Login
-class User(UserMixin):
-    def __init__(self, id, username):
-        self.id = id
-        self.username = username
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
+            # Todo: Probably needs a better thing
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'textadventure.sqlite'),
     )
@@ -35,12 +31,7 @@ def create_app(test_config=None):
     @login_manager.user_loader
     def load_user(user_id):
         db = get_db()
-        user = db.execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
-        if user is None:
-            return None
-        return User(user['id'], user['username'])
+        return User.from_db(db, user_id)
 
     # Register database functions
     app.teardown_appcontext(close_db)

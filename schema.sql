@@ -30,13 +30,3 @@ CREATE TABLE game_entry (
     FOREIGN KEY (game_id) REFERENCES game (id),
     FOREIGN KEY (user_id) REFERENCES user (id)
 );
-
-CREATE TABLE game_participant (
-    game_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    character_id INTEGER NOT NULL,
-    FOREIGN KEY (game_id) REFERENCES game (id),
-    FOREIGN KEY (user_id) REFERENCES user (id),
-    FOREIGN KEY (character_id) REFERENCES character (id),
-    PRIMARY KEY (game_id, user_id)
-);
